@@ -101,13 +101,13 @@ Bool_t PyROOT::TPyROOTApplication::CreatePyROOTApplication( Bool_t bLoadLibs )
       if ( argl && 0 < PyList_Size( argl ) ) argc = (int)PyList_GET_SIZE( argl );
       char** argv = new char*[ argc ];
       for ( int i = 1; i < argc; ++i ) {
-         char* argi = PyROOT_PyUnicode_AsString( PyList_GET_ITEM( argl, i ) );
+         const char* argi = PyROOT_PyUnicode_AsString( PyList_GET_ITEM( argl, i ) );
          if ( strcmp( argi, "-" ) == 0 || strcmp( argi, "--" ) == 0 ) {
          // stop collecting options, the remaining are for the python script
             argc = i;    // includes program name
             break;
          }
-         argv[ i ] = argi;
+         argv[ i ] = (char*) argi;
       }
 #if PY_VERSION_HEX < 0x03000000
       if ( Py_GetProgramName() && strlen( Py_GetProgramName() ) != 0 )
